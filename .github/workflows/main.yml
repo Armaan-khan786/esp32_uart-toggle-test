@@ -1,24 +1,19 @@
-name: ESP32 UART Toggle Automation
+name: ESP32 UART Toggle Test
 
-on:
-  push:
-    branches:
-      - master
-      - main
-  pull_request:
+on: [push]
 
 jobs:
-  uart-toggle-test:
-    runs-on: self-hosted
+  build:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Verify Arduino CLI installation
-        run: arduino-cli version
-
-      - name: Run ESP32 UART Toggle Test
-        shell: cmd
+      - name: Install Arduino CLI
         run: |
-          uart_toggle_test.bat
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Verify Arduino CLI
+        run: arduino-cli version
